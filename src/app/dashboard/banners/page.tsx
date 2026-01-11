@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { FiEdit, FiTrash2, FiPlus, FiX } from "react-icons/fi";
 import SingleImageUploader from "@/components/SingleImageUploader";
+import { getImageUrl } from "@/lib/imageUrl";
 
 type Banner = {
   _id: string;
@@ -119,7 +120,7 @@ export default function BannersPage() {
               <tr key={item._id}>
                 <td className="px-6 py-4 text-sm">
                   <img
-                    src={`http://localhost:5000${item.image}`}
+                    src={getImageUrl(item.image)}
                     alt="Banner"
                     className="w-32 h-20 object-cover rounded"
                   />

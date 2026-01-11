@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { FiEdit } from "react-icons/fi";
 import SingleImageUploader from "@/components/SingleImageUploader";
+import { getImageUrl } from "@/lib/imageUrl";
 
 type About = {
   _id: string;
@@ -122,7 +123,7 @@ export default function AboutPage() {
             <h3 className="font-semibold text-lg mb-2">Баннер</h3>
             {about.banner && (
               <img
-                src={`http://localhost:5000${about.banner}`}
+                src={getImageUrl(about.banner)}
                 alt="Banner"
                 className="w-full max-w-2xl h-48 object-cover rounded"
               />
@@ -146,7 +147,7 @@ export default function AboutPage() {
             <h3 className="font-semibold text-lg mb-2">Изображение</h3>
             {about.image && (
               <img
-                src={`http://localhost:5000${about.image}`}
+                src={getImageUrl(about.image)}
                 alt="About"
                 className="w-64 h-48 object-cover rounded"
               />

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FiX, FiUpload } from "react-icons/fi";
 import Image from "next/image";
+import { getImageUrl as getFullImageUrl } from "@/lib/imageUrl";
 
 type MultiImageUploaderProps = {
   images: (File | string)[];
@@ -51,7 +52,7 @@ export default function MultiImageUploader({
 
   const getImageUrl = (image: File | string, index: number): string => {
     if (typeof image === "string") {
-      return `http://localhost:5000${image}`;
+      return getFullImageUrl(image);
     }
     return (
       previews[

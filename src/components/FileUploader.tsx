@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { FiX, FiUpload, FiFile } from "react-icons/fi";
+import { getImageUrl } from "@/lib/imageUrl";
 
 type FileUploaderProps = {
   file: File | string | null;
@@ -42,7 +43,7 @@ export default function FileUploader({
 
   const getFileUrl = () => {
     if (typeof file === "string") {
-      return `http://localhost:5000${file}`;
+      return getImageUrl(file);
     }
     return null;
   };

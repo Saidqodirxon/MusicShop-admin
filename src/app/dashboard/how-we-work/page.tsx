@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { FiEdit, FiTrash2, FiPlus, FiX } from "react-icons/fi";
 import SingleImageUploader from "@/components/SingleImageUploader";
+import { getImageUrl } from "@/lib/imageUrl";
 
 type HowWeWork = {
   _id: string;
@@ -173,7 +174,7 @@ export default function HowWeWorkPage() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.image && (
                     <img
-                      src={`http://localhost:5000${item.image}`}
+                      src={getImageUrl(item.image)}
                       alt=""
                       className="w-12 h-12 object-cover rounded"
                     />

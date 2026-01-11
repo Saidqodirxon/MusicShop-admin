@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { FiX, FiUpload } from "react-icons/fi";
 import Image from "next/image";
+import { getImageUrl } from "@/lib/imageUrl";
 
 type SingleImageUploaderProps = {
   image: File | string | null;
@@ -25,7 +26,7 @@ export default function SingleImageUploader({
       };
       reader.readAsDataURL(image);
     } else if (typeof image === "string") {
-      setPreview(`http://localhost:5000${image}`);
+      setPreview(getImageUrl(image));
     } else {
       setPreview("");
     }
