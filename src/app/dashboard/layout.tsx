@@ -19,6 +19,7 @@ import {
   FiStar,
   FiHelpCircle,
   FiUser,
+  FiImage,
 } from "react-icons/fi";
 
 export default function DashboardLayout({
@@ -51,6 +52,7 @@ export default function DashboardLayout({
   const menuItems = [
     { name: "Панель управления", icon: FiHome, href: "/dashboard" },
     { name: "Заявки", icon: FiFileText, href: "/dashboard/applications" },
+    { name: "Баннеры", icon: FiImage, href: "/dashboard/banners" },
     { name: "Что мы делаем", icon: FiBriefcase, href: "/dashboard/what-we-do" },
     {
       name: "Для кого мы работаем",

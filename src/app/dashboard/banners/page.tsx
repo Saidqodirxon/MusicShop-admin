@@ -9,8 +9,6 @@ import SingleImageUploader from "@/components/SingleImageUploader";
 
 type Banner = {
   _id: string;
-  title: { uz: string; ru: string; en: string };
-  description?: { uz: string; ru: string; en: string };
   image: string;
   link?: string;
   order: number;
@@ -18,12 +16,6 @@ type Banner = {
 };
 
 type BannerForm = {
-  title_uz: string;
-  title_ru: string;
-  title_en: string;
-  description_uz?: string;
-  description_ru?: string;
-  description_en?: string;
   link?: string;
   order: number;
   isActive: boolean;
@@ -60,22 +52,6 @@ export default function BannersPage() {
   const onSubmit = async (data: BannerForm) => {
     try {
       const formData = new FormData();
-      formData.append(
-        "title",
-        JSON.stringify({
-          uz: data.title_uz,
-          ru: data.title_ru,
-          en: data.title_en,
-        })
-      );
-      formData.append(
-        "description",
-        JSON.stringify({
-          uz: data.description_uz || "",
-          ru: data.description_ru || "",
-          en: data.description_en || "",
-        })
-      );
       formData.append("link", data.link || "");
       formData.append("order", data.order.toString());
       formData.append("isActive", data.isActive.toString());
@@ -107,12 +83,6 @@ export default function BannersPage() {
 
   const editBanner = (item: Banner) => {
     setEditingId(item._id);
-    setValue("title_uz", item.title.uz);
-    setValue("title_ru", item.title.ru);
-    setValue("title_en", item.title.en);
-    setValue("description_uz", item.description?.uz || "");
-    setValue("description_ru", item.description?.ru || "");
-    setValue("description_en", item.description?.en || "");
     setValue("link", item.link || "");
     setValue("order", item.order);
     setValue("isActive", item.isActive);
@@ -160,7 +130,7 @@ export default function BannersPage() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                Заголовок
+                Изображение
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                 Порядок
@@ -176,7 +146,13 @@ export default function BannersPage() {
           <tbody className="bg-white divide-y divide-gray-200">
             {banners.map((item) => (
               <tr key={item._id}>
-                <td className="px-6 py-4 text-sm">{item.title.ru}</td>
+                <td className="px-6 py-4 text-sm">
+                  <img 
+                    src={`http://localhost:5000${item.image}`} 
+                    alt="Banner" 
+                    className="w-32 h-20 object-cover rounded"
+                  />
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
                   {item.order}
                 </td>
@@ -223,68 +199,7 @@ export default function BannersPage() {
               </button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <div className="grid grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Заголовок (Узбекский)
-                  </label>
-                  <input
-                    {...register("title_uz", { required: true })}
-                    className="w-full px-3 py-2 border rounded-md"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Заголовок (Русский)
-                  </label>
-                  <input
-                    {...register("title_ru", { required: true })}
-                    className="w-full px-3 py-2 border rounded-md"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Заголовок (Английский)
-                  </label>
-                  <input
-                    {...register("title_en", { required: true })}
-                    className="w-full px-3 py-2 border rounded-md"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Описание (Узбекский)
-                  </label>
-                  <textarea
-                    {...register("description_uz")}
-                    className="w-full px-3 py-2 border rounded-md"
-                    rows={3}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Описание (Русский)
-                  </label>
-                  <textarea
-                    {...register("description_ru")}
-                    className="w-full px-3 py-2 border rounded-md"
-                    rows={3}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Описание (Английский)
-                  </label>
-                  <textarea
-                    {...register("description_en")}
-                    className="w-full px-3 py-2 border rounded-md"
-                    rows={3}
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">
                     Ссылка
@@ -308,18 +223,19 @@ export default function BannersPage() {
                     className="w-full px-3 py-2 border rounded-md"
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Статус
-                  </label>
-                  <div className="flex items-center h-10">
-                    <input
-                      type="checkbox"
-                      {...register("isActive")}
-                      className="w-4 h-4 text-primary border-gray-300 rounded"
-                    />
-                    <label className="ml-2 text-sm">Активен</label>
-                  </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Статус
+                </label>
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    {...register("isActive")}
+                    className="w-4 h-4 text-primary border-gray-300 rounded"
+                  />
+                  <label className="ml-2 text-sm">Активен</label>
                 </div>
               </div>
 
