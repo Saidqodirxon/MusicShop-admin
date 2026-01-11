@@ -10,15 +10,6 @@ import SingleImageUploader from "@/components/SingleImageUploader";
 type Banner = {
   _id: string;
   image: string;
-  link?: string;
-  order: number;
-  isActive: boolean;
-};
-
-type BannerForm = {
-  link?: string;
-  order: number;
-  isActive: boolean;
 };
 
 export default function BannersPage() {
@@ -27,12 +18,7 @@ export default function BannersPage() {
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [image, setImage] = useState<File | string | null>(null);
-  const { register, handleSubmit, reset, setValue } = useForm<BannerForm>({
-    defaultValues: {
-      order: 0,
-      isActive: true,
-    },
-  });
+  const { handleSubmit, reset } = useForm();
 
   useEffect(() => {
     fetchBanners();
@@ -49,12 +35,9 @@ export default function BannersPage() {
     }
   };
 
-  const onSubmit = async (data: BannerForm) => {
+  const onSubmit = async () => {
     try {
       const formData = new FormData();
-      formData.append("link", data.link || "");
-      formData.append("order", data.order.toString());
-      formData.append("isActive", data.isActive.toString());
 
       if (image instanceof File) {
         formData.append("image", image);
@@ -83,9 +66,6 @@ export default function BannersPage() {
 
   const editBanner = (item: Banner) => {
     setEditingId(item._id);
-    setValue("link", item.link || "");
-    setValue("order", item.order);
-    setValue("isActive", item.isActive);
     setImage(item.image || null);
     setShowModal(true);
   };
@@ -112,10 +92,7 @@ export default function BannersPage() {
         <h1 className="text-3xl font-bold">Баннеры</h1>
         <button
           onClick={() => {
-            reset({
-              order: 0,
-              isActive: true,
-            });
+            reset();
             setEditingId(null);
             setImage(null);
             setShowModal(true);
@@ -133,12 +110,6 @@ export default function BannersPage() {
                 Изображение
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                Порядок
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                Статус
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                 Действия
               </th>
             </tr>
@@ -152,20 +123,6 @@ export default function BannersPage() {
                     alt="Banner"
                     className="w-32 h-20 object-cover rounded"
                   />
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  {item.order}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs ${
-                      item.isActive
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
-                    }`}
-                  >
-                    {item.isActive ? "Активен" : "Неактивен"}
-                  </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm space-x-3">
                   <button
@@ -199,44 +156,6 @@ export default function BannersPage() {
               </button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Ссылка
-                  </label>
-                  <input
-                    {...register("link")}
-                    className="w-full px-3 py-2 border rounded-md"
-                    placeholder="https://..."
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Порядок
-                  </label>
-                  <input
-                    type="number"
-                    {...register("order", {
-                      required: true,
-                      valueAsNumber: true,
-                    })}
-                    className="w-full px-3 py-2 border rounded-md"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Статус</label>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    {...register("isActive")}
-                    className="w-4 h-4 text-primary border-gray-300 rounded"
-                  />
-                  <label className="ml-2 text-sm">Активен</label>
-                </div>
-              </div>
-
               <SingleImageUploader
                 image={image}
                 onChange={setImage}
