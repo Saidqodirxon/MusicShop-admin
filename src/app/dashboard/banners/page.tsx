@@ -147,9 +147,9 @@ export default function BannersPage() {
             {banners.map((item) => (
               <tr key={item._id}>
                 <td className="px-6 py-4 text-sm">
-                  <img 
-                    src={`http://localhost:5000${item.image}`} 
-                    alt="Banner" 
+                  <img
+                    src={`http://localhost:5000${item.image}`}
+                    alt="Banner"
                     className="w-32 h-20 object-cover rounded"
                   />
                 </td>
@@ -224,11 +224,9 @@ export default function BannersPage() {
                   />
                 </div>
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium mb-1">
-                  Статус
-                </label>
+                <label className="block text-sm font-medium mb-1">Статус</label>
                 <div className="flex items-center">
                   <input
                     type="checkbox"
